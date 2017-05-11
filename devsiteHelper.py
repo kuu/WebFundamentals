@@ -231,9 +231,10 @@ def renderDevSiteContent(content, lang='en'):
     fbContent = re.search(r'({%[ ]?framebox.+?%})(.*?){%[ ]?endframebox[ ]?%}(?ms)', framebox)
     fbOpenTag = fbContent.group(1)
     fbHeight = re.search(r'height="(.*?)"', fbContent.group(1))
+    fbClass = re.search(r'class="(.*?)"', fbContent.group(1))
     fbContent = fbContent.group(2)
-    fbMemcacheKey = '/framebox/' + hashlib.md5(fbContent.encode('utf-8')).hexdigest()
-    replaceWith = '<iframe class="framebox inherit-locale" '
+    fbMemcacheKey = '/framebox/' + hashlib.md5(fbContent).hexdigest()
+    replaceWith = '<iframe class="framebox inherit-locale ' + fbClass.group(1) + '" '
     replaceWith += 'style="width: 100%;'
     if fbHeight:
       replaceWith += 'height:' + fbHeight.group(1) + ';'
